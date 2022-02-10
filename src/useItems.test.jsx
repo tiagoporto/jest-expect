@@ -17,9 +17,27 @@ test("should return correct items", () => {
     { title: "contact", label: expect.any(Object) },
   ]);
 
-  // This expect doesn't works like ./items.jsx
+  // This expect doesn't works like ./items.test.jsx
   expect(current).toStrictEqual([
     { title: "home", label: <Typography color="secondary">Home</Typography> },
     { title: "contact", label: <Typography>Contact</Typography> },
+  ]);
+
+  // Workaround
+  expect(current).toMatchObject([
+    {
+      title: "home",
+      label: expect.objectContaining({
+        type: expect.any(Function),
+        props: { color: "secondary", children: "Home" },
+      }),
+    },
+    {
+      title: "contact",
+      label: expect.objectContaining({
+        type: expect.any(Function),
+        props: { children: "Contact" },
+      }),
+    },
   ]);
 });
